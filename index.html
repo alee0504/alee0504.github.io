@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Albert J. Lee: interpretability and post-training of medical LLMs, and ML for life sciences; ML Ph.D. candidate at Georgia Tech.">
+<title>Albert J. Lee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Literata:opsz,wght@7..72,500;7..72,600&display=swap">
+<style>
+/* Layout: one reading column; mono metadata (dates, status, years) sits in a narrow left gutter on wide screens and stacks above the entry on phones */
+:root {
+  --bg: #f7f8fa;
+  --fg: #1a1e26;
+  --muted: #586172;
+  --faint: #8a93a3;
+  --rule: #e1e5ec;
+  --accent: #2a4bb8;
+  --accent-line: #c3cdee;
+  --display: "Literata", Georgia, "Times New Roman", serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --t-xs: 0.78rem;
+  --t-s: 0.9rem;
+  --t-m: 1rem;
+  --t-l: 1.3rem;
+  --t-xl: 2.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111419; --fg: #e4e7ed; --muted: #a3abba; --faint: #7a8394;
+    --rule: #262b35; --accent: #93acff; --accent-line: #34406a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111419; --fg: #e4e7ed; --muted: #a3abba; --faint: #7a8394;
+  --rule: #262b35; --accent: #93acff; --accent-line: #34406a; color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: var(--t-m);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.page {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding-inline: 20px;
+  padding-block: 56px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-line);
+}
+a:hover { border-bottom-color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+/* Header */
+header { display: flex; flex-direction: column; gap: 16px; }
+h1 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-xl);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+.role {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.bio { display: flex; flex-direction: column; gap: 12px; max-width: 66ch; }
+.bio p { margin: 0; }
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 20px;
+  font-size: var(--t-s);
+}
+.email { font-family: var(--mono); font-size: var(--t-xs); color: var(--muted); user-select: all; }
+
+/* Three settings, one question */
+.focus {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+}
+.focus div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.label {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.focus p { margin: 0; font-size: var(--t-s); color: var(--muted); line-height: 1.5; }
+
+/* Sections */
+section { display: flex; flex-direction: column; gap: 20px; }
+h2 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--t-l);
+  margin: 0;
+  text-wrap: balance;
+}
+h3 {
+  font-family: var(--body);
+  font-size: var(--t-xs);
+  font-weight: 500;
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 8px 0 -4px;
+}
+.list { display: flex; flex-direction: column; gap: 22px; margin: 0; padding: 0; list-style: none; }
+.list.tight { gap: 14px; }
+.entry {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 2px 22px;
+}
+.meta {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  color: var(--faint);
+  padding-top: 0.22em;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+.body { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.title { font-weight: 600; line-height: 1.4; }
+.sub { color: var(--muted); font-size: var(--t-s); }
+.body p { margin: 0; font-size: var(--t-s); line-height: 1.6; }
+.body ul { margin: 6px 0 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; font-size: var(--t-s); }
+.body li::marker { color: var(--faint); }
+
+.pub { font-size: var(--t-s); line-height: 1.55; margin: 0; }
+.pub .ptitle { color: var(--fg); font-weight: 500; }
+.pub .authors { color: var(--muted); }
+.pub b { color: var(--fg); font-weight: 600; }
+.pub .venue { color: var(--muted); font-style: italic; }
+.note { font-size: var(--t-s); color: var(--muted); margin: 0; }
+
+figure.demo { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+figure.demo video {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1000 / 814;
+  height: auto;
+  border-radius: 6px;
+  background: var(--rule);
+}
+figure.demo figcaption { font-size: var(--t-s); color: var(--muted); line-height: 1.5; }
+figure.demo figcaption .label { margin-right: 8px; }
+
+.refs { font-family: var(--mono); font-size: var(--t-xs); color: var(--faint); letter-spacing: 0.01em; }
+.lede { margin: 0; font-size: var(--t-s); color: var(--muted); max-width: 66ch; }
+
+footer {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  color: var(--faint);
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 640px) {
+  .page { padding-block: 36px 56px; gap: 44px; }
+  .focus { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .entry { grid-template-columns: minmax(0, 1fr); }
+  .meta { padding-top: 0; }
+}
+</style>
+<style>*,*::before,*::after{box-sizing:border-box} body{margin:0} img,video{max-width:100%}</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1>Albert J. Lee</h1>
+    <p class="role">Ph.D. candidate, Machine Learning · Georgia Tech</p>
+
+    <div class="bio">
+      <p>I study where a model's behavior comes from and how to change it reliably, mostly in biomedical settings where a wrong answer has a real cost. My Ph.D. work uses causal interventions on model internals (activation patching, steering) and targeted post-training (SFT, RL with verifiable rewards) to find where specific behaviors come from in medical LLMs and VLMs, change them, and check whether an intervention really does what it appears to.</p>
+      <p>I also work on ML for biology and medicine: causal discovery from single-cell perturbation data at LG AI Research, ontology-aware biomedical entity linking, and earlier, dynamical-systems models of ALS. I trained in neuroscience and am finishing my Ph.D. at Georgia Tech (December 2026), advised by Cassie S. Mitchell. Since August 2026 I have been at PIA Robotics, a pre-seed humanoid startup, where I built its sim-to-real pipeline from scratch. I've changed fields a few times, and learning a new one from the ground up is the part I enjoy most.</p>
+    </div>
+
+    <ul class="links">
+      <li><a href="cv.pdf">CV</a></li>
+      <!-- <li><a href="PASTE_GOOGLE_SCHOLAR_URL">Google Scholar</a></li> -->
+      <!-- <li><a href="PASTE_GITHUB_URL">GitHub</a></li> -->
+      <!-- <li><a href="PASTE_LINKEDIN_URL">LinkedIn</a></li> -->
+      <li class="email">albert.jb.lee@gatech.edu</li>
+    </ul>
+
+    <div class="focus">
+      <div>
+        <span class="label">Interpretability</span>
+        <p>Causal interventions that locate where a behavior comes from and test whether changing it works.</p>
+      </div>
+      <div>
+        <span class="label">Post-training &amp; evaluation</span>
+        <p>SFT and RL with verifiable rewards, measured with counterfactual evaluations and side effects.</p>
+      </div>
+      <div>
+        <span class="label">ML for life sciences</span>
+        <p>Causal discovery from single-cell perturbations, biomedical entity linking, disease modeling.</p>
+      </div>
+    </div>
+  </header>
+
+  <section id="news">
+    <h2>News</h2>
+    <ul class="list tight">
+      <li class="entry">
+        <span class="meta">Oct 2026</span>
+        <div class="body"><p>Our paper on separating co-expression from regulation in cyclic causal discovery was accepted at the NeurIPS 2026 Workshop on AI for Drug Discovery (AI4DD).</p></div>
+      </li>
+      <li class="entry">
+        <span class="meta">Aug 2026</span>
+        <div class="body"><p>Joined PIA Robotics, a pre-seed humanoid startup, as a research intern.</p></div>
+      </li>
+      <li class="entry">
+        <span class="meta">May 2026</span>
+        <div class="body"><p>Started a research internship at LG AI Research (Bio Intelligence Lab).</p></div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="research">
+    <h2>Research</h2>
+    <ul class="list">
+      <li class="entry">
+        <span class="meta">2026</span>
+        <div class="body">
+          <span class="title">What post-training changes inside a model</span>
+          <p>Robustness fine-tuning of Llama-3.1-8B against wrong diagnostic suggestions raises accuracy under wrong suggestions (31% → 72%) but lowers it under correct ones (89% → 62%). About 60% of both effects sits in one layer, and shifting it back recovers much of the loss.</p>
+          <p>In ongoing work, I build counterfactual evaluations of treatment-eligibility judgments, which should change when the rules change but not when only the patient's stated goal changes. I trace the rule-application failure to about 2% of attention heads and post-train only those heads with SFT and RL with verifiable rewards, against random-head and full-parameter baselines, measuring both the correction and its side effects.</p>
+          <span class="refs">ACL ARR 2026 submission · ongoing</span>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">2025 – 2026</span>
+        <div class="body">
+          <span class="title">Whether interpretability tools mean what they seem to</span>
+          <p>One activation direction reduces cue-following across seven kinds of answer-suggesting cues in three LLM families, and comparing it with cue-specific and random directions separates what is detectable from what works as an intervention. In VLMs, activation patching that repairs an answer need not restore evidence from the image: donors from a different case recover as much as the same case, across 5 models.</p>
+          <span class="refs">ACL ARR 2026 submission · AAAI 2027 submission</span>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">2026</span>
+        <div class="body">
+          <span class="title">Causal discovery from single-cell perturbation data</span>
+          <p>At LG AI Research I developed DCCD-J, a differentiable method that recovers causal graphs from interventional data with latent confounders and feedback loops. Replacing the prior method's alternating covariance estimation, which collapses on real data, with a jointly optimized Cholesky parameterization gave the best held-out likelihood on all 5 benchmarks and confounder-recovery F1 of 0.93 versus 0.23 under dense confounding. I also used attribution from single-cell foundation models (scFoundation, scLong) to choose the gene set.</p>
+          <span class="refs">NeurIPS 2026 AI4DD workshop (co-first author)</span>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">2022 – 2026</span>
+        <div class="body">
+          <span class="title">Building ontology structure into representations</span>
+          <p>HiCo-EL builds an ontology's type hierarchy into bi-encoder entity linking: +3.7 R@1 on MedMentions and +9.6 on diseases unseen in training. It is the linking step in the lab's text-to-knowledge tools, between mention extraction (CCS Explorer, TrialSieve) and reasoning over a UMLS concept graph (SemNet Explorer), which I also contributed to.</p>
+          <span class="refs">Findings of EMNLP 2026 (first author) · IEEE BigData 2022 · Bioengineering 2025 · BDCC 2026</span>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">2016 – 2025</span>
+        <div class="body">
+          <span class="title">Disease modeling and clinical ML</span>
+          <p>A meta-analysis of 227 ALS mouse studies, then a feedback model whose eigenvalues show the disease state turning unstable around onset; and interpretable ML on Rey Complex Figure and MoCA scores in 926 cognitively normal adults. I led the lab's ALS team as an undergraduate.</p>
+          <span class="refs">IJMS 2025 (co-first) · Front. Neurosci. 2022 (first) · J. Clin. Med. 2025 (first)</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="robotics">
+    <h2>Building from scratch</h2>
+    <p class="lede">Alongside the Ph.D., I joined PIA Robotics, a pre-seed humanoid startup with no learning pipeline yet. I had no robotics background, and in about two months I took the company from nothing to a policy running on its robot.</p>
+    <ul class="list">
+      <li class="entry">
+        <span class="meta">PIA · 08/2026 –</span>
+        <div class="body">
+          <span class="title">Sim-to-real pipeline for humanoid whole-body control</span>
+          <p>I chose the stack and built each stage myself: RL training in Isaac Lab, sim-to-sim checks in MuJoCo, and deployment on a Unitree G1. I'm now extending it with text-to-motion reference data and mesh-based retargeting, so RL has as little as possible to fix. The same habits carry over to any new domain: learn the field quickly, own the system end to end, and get it working on the real thing.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="experience">
+    <h2>Experience</h2>
+    <ul class="list tight">
+      <li class="entry">
+        <span class="meta">08/2026 – present</span>
+        <div class="body">
+          <span class="title">PIA Robotics · Research Intern</span>
+          <p>Humanoid whole-body control and sim-to-real at a pre-seed startup.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">05/2026 – 09/2026</span>
+        <div class="body">
+          <span class="title">LG AI Research · Research Intern</span>
+          <p>Bio Intelligence Lab. Causal discovery from single-cell perturbation data.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">08/2021 – present</span>
+        <div class="body">
+          <span class="title">Georgia Tech · Graduate Research Assistant</span>
+          <p>Laboratory for Pathology Dynamics, Georgia Tech &amp; Emory University School of Medicine.</p>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">Summer 2025</span>
+        <div class="body">
+          <span class="title">Georgia Tech · Graduate Teaching Assistant</span>
+          <p>Bioengineering Statistics (BMED 2400). Supervised two junior researchers on HiCo-EL.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="publications">
+    <h2>Publications</h2>
+
+    <h3>Under review</h3>
+    <ul class="list tight">
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Recovery Is Not Provenance: A Source-Substitution Audit of VLM Activation Patching in Medical VQA.</span> <span class="venue">Under review at AAAI 2027.</span></p></li>
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Seven Medical Reasoning Biases, One Causal Direction.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Resisting Wrong Suggestions, Losing Right Ones: What Robustness Fine-Tuning Changes in Medical LLMs.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
+    </ul>
+
+    <h3>Conference and workshop papers</h3>
+    <ul class="list tight">
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>*, J. Kang*, S. Kim*, H. Jeong.</span> <span class="ptitle">Separating Co-expression from Regulation in Cyclic Causal Discovery with Latent Confounders.</span> <span class="venue">NeurIPS 2026 Workshop on AI for Drug Discovery (AI4DD).</span> *Equal contribution.</p></li>
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, P. Bathala, P. Malhotra, C. Ye, C. S. Mitchell.</span> <span class="ptitle">HiCo-EL: Encoding Ontology Structure into Bi-Encoder Entity Linking.</span> <span class="venue">Findings of EMNLP 2026.</span></p></li>
+      <li class="entry"><span class="meta">2022</span><p class="pub"><span class="authors">I. Al-Hussaini, D. N. An, <b>A. J. Lee</b>, S. Bi, C. S. Mitchell.</span> <span class="ptitle">CCS Explorer: Relevance Prediction, Extractive Summarization, and Named Entity Recognition from Clinical Cohort Studies.</span> <span class="venue">IEEE BigData 2022, Oral.</span></p></li>
+    </ul>
+
+    <h3>Journal articles</h3>
+    <ul class="list tight">
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors">X. He, D. Camacho, L. Moukheiber, M. Iyer, B. Zhao, C. Ye, B. Nursal, X. Guo, <b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">SemNet Explorer: An Evidence-Grounded Knowledge Graph–LLM Framework for Multi-Scale Mechanistic Reporting Across Biomedical Domains.</span> <span class="venue">Big Data and Cognitive Computing 10(6), 171.</span></p></li>
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors">M. E. Fay, R. Tandon, T. Latham, <b>A. J. Lee</b>, A. E. Rankine-Mullins, M. Reid, C. S. Mitchell, R. E. Ware, W. A. Lam.</span> <span class="ptitle">Artificial Intelligence-Based Analysis of Central Nervous System Vasculopathy in Pediatric Sickle Cell Anemia.</span> <span class="venue">American Journal of Hematology 101(5), 998–1004.</span></p></li>
+      <li class="entry"><span class="meta">2025</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, B. Zhao, J. J. Lah, S. E. John, D. W. Loring, C. S. Mitchell.</span> <span class="ptitle">Education, Sex, and Age Shape Rey Complex Figure Performance in Cognitively Normal Adults: An Interpretable Machine Learning Study.</span> <span class="venue">Journal of Clinical Medicine 14(21), 7562.</span></p></li>
+      <li class="entry"><span class="meta">2025</span><p class="pub"><span class="authors">D. Kartchner, H. Turner, C. Ye, I. Al-Hussaini, B. Nursal, <b>A. J. B. Lee</b>, J. Deng, C. Curtis, H. Cho, E. L. Duvaris, C. Jackson, C. E. Shanks, S. Y. Tan, S. Ramalingam, C. S. Mitchell.</span> <span class="ptitle">TrialSieve: A Comprehensive Biomedical Information Extraction Framework for PICO, Meta-Analysis, and Drug Repurposing.</span> <span class="venue">Bioengineering 12(5), 486.</span></p></li>
+      <li class="entry"><span class="meta">2025</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, S. Bi, E. Ridgeway, I. Al-Hussaini, S. Deshpande, A. Krueger, A. Khatri, D. Tsui, J. Deng, C. S. Mitchell.</span> <span class="ptitle">Restoring Homeostasis: Treating Amyotrophic Lateral Sclerosis by Resolving Dynamic Regulatory Instability.</span> <span class="venue">International Journal of Molecular Sciences 26(3), 872.</span></p></li>
+      <li class="entry"><span class="meta">2022</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, T. E. Kittel, R. B. Kim, T. N. Bach, T. Zhang, C. S. Mitchell.</span> <span class="ptitle">Comparing Therapeutic Modulators of the SOD1 G93A Amyotrophic Lateral Sclerosis Mouse Pathophysiology.</span> <span class="venue">Frontiers in Neuroscience 16, 1111763.</span></p></li>
+    </ul>
+
+    <p class="note">Conference abstracts and presentations from 2017 to 2022 are listed in my <a href="cv.pdf">CV</a>.</p>
+  </section>
+
+  <footer>Updated October 2026</footer>
+
+</div>
+
+</body>
+</html>
