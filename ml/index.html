@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Albert J. Lee: robot learning for humanoids (whole-body control, sim-to-real, motion retargeting); ML Ph.D. candidate at Georgia Tech.">
+<meta name="description" content="Albert J. Lee: interpretability and post-training of medical LLMs, and ML for life sciences; ML Ph.D. candidate at Georgia Tech.">
 <title>Albert J. Lee</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -198,11 +198,11 @@ footer {
 
   <header>
     <h1>Albert J. Lee</h1>
-    <p class="role">Research Intern · PIA Robotics &nbsp;/&nbsp; Ph.D. candidate, Machine Learning · Georgia Tech</p>
+    <p class="role">Ph.D. candidate, Machine Learning · Georgia Tech</p>
 
     <div class="bio">
-      <p>I work on robot learning for humanoids. In August 2026 I joined PIA Robotics, a pre-seed humanoid startup, with no prior robotics experience, and built its sim-to-real pipeline for whole-body control from scratch: policies are trained with RL in Isaac Lab, checked in MuJoCo, and deployed on a Unitree G1. Right now I'm building a pipeline that turns text-generated human motion into robot reference motion through mesh-based retargeting, so the data is clean enough that RL has as little as possible to fix.</p>
-      <p>I'm finishing a Ph.D. in Machine Learning at Georgia Tech (December 2026), advised by Cassie S. Mitchell. The thread through my work is how behavior gets produced. I studied it in brains as a neuroscience undergraduate, then inside LLMs and VLMs during my Ph.D., using causal interventions (activation patching, steering, targeted post-training) to find where specific behaviors come from. Now I study it in robot bodies. Each move has meant learning a new field from the ground up, and that is the part I enjoy most.</p>
+      <p>I study where a model's behavior comes from and how to change it reliably, mostly in biomedical settings where a wrong answer has a real cost. My Ph.D. work uses causal interventions on model internals (activation patching, steering) and targeted post-training (SFT, RL with verifiable rewards) to find where specific behaviors come from in medical LLMs and VLMs, change them, and check whether an intervention really does what it appears to.</p>
+      <p>I also work on ML for biology and medicine: causal discovery from single-cell perturbation data at LG AI Research, ontology-aware biomedical entity linking, and earlier, dynamical-systems models of ALS. I trained in neuroscience and am finishing my Ph.D. at Georgia Tech (December 2026), advised by Cassie S. Mitchell. Since August 2026 I have been at PIA Robotics, a pre-seed humanoid startup, where I built its sim-to-real pipeline from scratch. I've changed fields a few times, and learning a new one from the ground up is the part I enjoy most.</p>
     </div>
 
     <ul class="links">
@@ -215,16 +215,16 @@ footer {
 
     <div class="focus">
       <div>
-        <span class="label">Whole-body control</span>
-        <p>RL policies for a humanoid, from Isaac Lab through MuJoCo to hardware.</p>
+        <span class="label">Interpretability</span>
+        <p>Causal interventions that locate where a behavior comes from and test whether changing it works.</p>
       </div>
       <div>
-        <span class="label">Motion data</span>
-        <p>Text-generated human motion, retargeted through the body mesh so RL has less to fix.</p>
+        <span class="label">Post-training &amp; evaluation</span>
+        <p>SFT and RL with verifiable rewards, measured with counterfactual evaluations and side effects.</p>
       </div>
       <div>
-        <span class="label">Model internals</span>
-        <p>Causal interventions that show where a behavior comes from inside LLMs and VLMs.</p>
+        <span class="label">ML for life sciences</span>
+        <p>Causal discovery from single-cell perturbations, biomedical entity linking, disease modeling.</p>
       </div>
     </div>
   </header>
@@ -238,7 +238,7 @@ footer {
       </li>
       <li class="entry">
         <span class="meta">Aug 2026</span>
-        <div class="body"><p>Joined PIA Robotics, a pre-seed humanoid startup, to build its sim-to-real pipeline for whole-body control.</p></div>
+        <div class="body"><p>Joined PIA Robotics, a pre-seed humanoid startup, as a research intern.</p></div>
       </li>
       <li class="entry">
         <span class="meta">May 2026</span>
@@ -247,25 +247,62 @@ footer {
     </ul>
   </section>
 
-  <section id="robotics">
-    <h2>Robot learning</h2>
-    <figure class="demo">
-      <video src="demo.mp4" poster="demo_poster.jpg" autoplay muted loop playsinline controls preload="metadata"></video>
-      <figcaption><span class="label">Demo · Oct 2026</span>Our Unitree G1 at PIA Robotics under teleoperation, shown from a third-person camera, the operator's screen, and the robot's first-person view. The whole-body policy keeps the robot balanced as it walks through doorways, turns, and crouches while holding an object in both hands.</figcaption>
-    </figure>
+  <section id="research">
+    <h2>Research</h2>
     <ul class="list">
       <li class="entry">
-        <span class="meta">PIA · 2026</span>
+        <span class="meta">2026</span>
         <div class="body">
-          <span class="title">Sim-to-real pipeline for humanoid whole-body control</span>
-          <p>Built from scratch at PIA: whole-body control policies trained with RL in Isaac Lab, validated sim-to-sim in MuJoCo, and deployed on a Unitree G1. Policies from this pipeline run in the teleoperated demo above.</p>
+          <span class="title">What post-training changes inside a model</span>
+          <p>Robustness fine-tuning of Llama-3.1-8B-Instruct against wrong diagnostic suggestions (KL-regularized LoRA on the gold answer, compared with GRPO) raises accuracy under wrong suggestions (31% → 72%) but lowers it under correct ones (89% → 62%). About 60% of both effects sits in one layer, and shifting it back recovers much of the loss.</p>
+          <p>In ongoing work, I build counterfactual evaluations of treatment-eligibility judgments, which should change when the rules change but not when only the patient's stated goal changes. I trace the rule-application failure to about 2% of attention heads and post-train only those heads with SFT and RL with verifiable rewards, against random-head and full-parameter baselines, measuring both the correction and its side effects.</p>
+          <span class="refs">ACL ARR 2026 submission · ongoing</span>
         </div>
       </li>
       <li class="entry">
-        <span class="meta">PIA · ongoing</span>
+        <span class="meta">2025 – 2026</span>
         <div class="body">
-          <span class="title">Text-to-motion reference data with mesh-based retargeting</span>
-          <p>Human motion is generated from text with a kinematic motion-diffusion model, turned into a parametric body mesh, and retargeted to the robot through dense correspondence between the human and robot body surfaces, under contact, joint-limit, and floor constraints. The aim is reference data clean enough that RL is needed as little as possible and new motions reach the robot faster.</p>
+          <span class="title">Whether interpretability tools mean what they seem to</span>
+          <p>One activation direction reduces cue-following across seven kinds of answer-suggesting cues in three LLM families, and comparing it with cue-specific and random directions separates what is detectable from what works as an intervention. In VLMs, activation patching that repairs an answer need not restore evidence from the image: donors from a different case recover as much as the same case, across 5 models.</p>
+          <span class="refs">ACL ARR 2026 submission · AAAI 2027 submission</span>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">2026</span>
+        <div class="body">
+          <span class="title">Causal discovery from single-cell perturbation data</span>
+          <p>At LG AI Research I developed DCCD-J, a differentiable method that recovers causal graphs from interventional data with latent confounders and feedback loops. Replacing the prior method's alternating covariance estimation, which collapses on real data, with a jointly optimized Cholesky parameterization gave the best held-out likelihood on all 5 benchmarks and confounder-recovery F1 of 0.93 versus 0.23 under dense confounding. I also used attribution from single-cell foundation models (scFoundation, scLong) to choose the gene set.</p>
+          <span class="refs">NeurIPS 2026 AI4DD workshop (co-first author)</span>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">2022 – 2026</span>
+        <div class="body">
+          <span class="title">Building ontology structure into representations</span>
+          <p>HiCo-EL builds an ontology's type hierarchy into bi-encoder entity linking: +3.7 R@1 on MedMentions and +9.6 on diseases unseen in training. It is the linking step in the lab's text-to-knowledge tools, between mention extraction (CCS Explorer, TrialSieve) and reasoning over a UMLS concept graph (SemNet Explorer), which I also contributed to.</p>
+          <span class="refs">Findings of EMNLP 2026 (first author) · IEEE BigData 2022 · Bioengineering 2025 · BDCC 2026</span>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">2016 – 2025</span>
+        <div class="body">
+          <span class="title">Disease modeling and clinical ML</span>
+          <p>A meta-analysis of 227 ALS mouse studies, then a feedback model whose eigenvalues show the disease state turning unstable around onset; and interpretable ML on Rey Complex Figure and MoCA scores in 926 cognitively normal adults. I led the lab's ALS team as an undergraduate.</p>
+          <span class="refs">IJMS 2025 (co-first) · Front. Neurosci. 2022 (first) · J. Clin. Med. 2025 (first)</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="robotics">
+    <h2>Building from scratch</h2>
+    <p class="lede">Alongside the Ph.D., I joined PIA Robotics, a pre-seed humanoid startup with no learning pipeline yet. I had no robotics background, and in about two months I took the company from nothing to a policy running on its robot.</p>
+    <ul class="list">
+      <li class="entry">
+        <span class="meta">PIA · 08/2026 –</span>
+        <div class="body">
+          <span class="title">Sim-to-real pipeline for humanoid whole-body control</span>
+          <p>I chose the stack and built each stage myself: RL training in Isaac Lab, sim-to-sim checks in MuJoCo, and deployment on a Unitree G1. I'm now extending it with text-to-motion reference data and mesh-based retargeting, so RL has as little as possible to fix. The same habits carry over to any new domain: learn the field quickly, own the system end to end, and get it working on the real thing.</p>
         </div>
       </li>
     </ul>
@@ -285,53 +322,21 @@ footer {
         <span class="meta">05/2026 – 09/2026</span>
         <div class="body">
           <span class="title">LG AI Research · Research Intern</span>
-          <p>Causal discovery from interventional single-cell data under latent confounding and feedback loops. Co-first author, NeurIPS 2026 AI4DD workshop.</p>
+          <p>Bio Intelligence Lab. Causal discovery from single-cell perturbation data.</p>
         </div>
       </li>
       <li class="entry">
         <span class="meta">08/2021 – present</span>
         <div class="body">
           <span class="title">Georgia Tech · Graduate Research Assistant</span>
-          <p>Laboratory for Pathology Dynamics, Georgia Tech &amp; Emory University School of Medicine. Research below.</p>
-        </div>
-      </li>
-    </ul>
-  </section>
-
-  <section id="phd">
-    <h2>Ph.D. research</h2>
-    <p class="lede">Most of my Ph.D. asked where a model's behavior comes from and whether changing it does what we think. Earlier work built structure into representations and modeled disease dynamics.</p>
-    <ul class="list">
-      <li class="entry">
-        <span class="meta">2026</span>
-        <div class="body">
-          <span class="title">What post-training changes inside a model</span>
-          <p>Robustness fine-tuning of Llama-3.1-8B-Instruct against wrong diagnostic suggestions (KL-regularized LoRA on the gold answer, compared with GRPO) raises accuracy under wrong suggestions (31% → 72%) but lowers it under correct ones (89% → 62%). About 60% of both effects sits in one layer, and shifting it back recovers much of the loss. In ongoing work, I trace a rule-application failure to about 2% of attention heads and post-train only those heads with SFT and RL with verifiable rewards.</p>
-          <span class="refs">ACL ARR 2026 submission · ongoing</span>
+          <p>Laboratory for Pathology Dynamics, Georgia Tech &amp; Emory University School of Medicine.</p>
         </div>
       </li>
       <li class="entry">
-        <span class="meta">2025 – 2026</span>
+        <span class="meta">Summer 2025</span>
         <div class="body">
-          <span class="title">Whether interpretability tools mean what they seem to</span>
-          <p>One activation direction reduces cue-following across seven kinds of answer-suggesting cues in three LLM families, and comparing it with cue-specific and random directions separates what is detectable from what works as an intervention. In VLMs, activation patching that repairs an answer need not restore evidence from the image: donors from a different case recover as much as the same case.</p>
-          <span class="refs">ACL ARR 2026 submission · AAAI 2027 submission</span>
-        </div>
-      </li>
-      <li class="entry">
-        <span class="meta">2022 – 2026</span>
-        <div class="body">
-          <span class="title">Building ontology structure into representations</span>
-          <p>HiCo-EL builds an ontology's type hierarchy into bi-encoder entity linking: +3.7 R@1 on MedMentions and +9.6 on diseases unseen in training. It is the linking step in the lab's text-to-knowledge tools, between mention extraction (CCS Explorer, TrialSieve) and reasoning over a UMLS concept graph (SemNet Explorer), which I also contributed to.</p>
-          <span class="refs">Findings of EMNLP 2026 (first author) · IEEE BigData 2022 · Bioengineering 2025 · BDCC 2026</span>
-        </div>
-      </li>
-      <li class="entry">
-        <span class="meta">2016 – 2025</span>
-        <div class="body">
-          <span class="title">Disease modeling and clinical ML</span>
-          <p>A meta-analysis of 227 ALS mouse studies, then a feedback model whose eigenvalues show the disease state turning unstable around onset; and interpretable ML on Rey Complex Figure and MoCA scores in 926 cognitively normal adults. I led the lab's ALS team as an undergraduate.</p>
-          <span class="refs">IJMS 2025 (co-first) · Front. Neurosci. 2022 (first) · J. Clin. Med. 2025 (first)</span>
+          <span class="title">Georgia Tech · Graduate Teaching Assistant</span>
+          <p>Bioengineering Statistics (BMED 2400). Supervised two junior researchers on HiCo-EL.</p>
         </div>
       </li>
     </ul>
@@ -370,7 +375,6 @@ footer {
   <footer>Updated October 2026</footer>
 
 </div>
-
 
 </body>
 </html>
