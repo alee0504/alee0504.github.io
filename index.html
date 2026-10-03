@@ -254,7 +254,7 @@ footer {
         <span class="meta">2026</span>
         <div class="body">
           <span class="title">What post-training changes inside a model</span>
-          <p>Robustness fine-tuning of Llama-3.1-8B against wrong diagnostic suggestions raises accuracy under wrong suggestions (31% → 72%) but lowers it under correct ones (89% → 62%). About 60% of both effects sits in one layer, and shifting it back recovers much of the loss.</p>
+          <p>Robustness fine-tuning of Llama-3.1-8B-Instruct against wrong diagnostic suggestions (KL-regularized LoRA on the gold answer, compared with GRPO) raises accuracy under wrong suggestions (31% → 72%) but lowers it under correct ones (89% → 62%). About 60% of both effects sits in one layer, and shifting it back recovers much of the loss.</p>
           <p>In ongoing work, I build counterfactual evaluations of treatment-eligibility judgments, which should change when the rules change but not when only the patient's stated goal changes. I trace the rule-application failure to about 2% of attention heads and post-train only those heads with SFT and RL with verifiable rewards, against random-head and full-parameter baselines, measuring both the correction and its side effects.</p>
           <span class="refs">ACL ARR 2026 submission · ongoing</span>
         </div>
