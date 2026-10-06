@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Albert J. Lee: robot learning for humanoids (whole-body control, sim-to-real, motion retargeting); ML Ph.D. candidate at Georgia Tech.">
+<meta name="description" content="Albert J. Lee: robot learning for humanoids (whole-body control, sim-to-real, motion retargeting, motion tracking); ML Ph.D. candidate at Georgia Tech.">
 <title>Albert J. Lee</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -201,12 +201,13 @@ footer {
     <p class="role">Research Intern · PIA Robotics &nbsp;/&nbsp; Ph.D. candidate, Machine Learning · Georgia Tech</p>
 
     <div class="bio">
-      <p>I work on robot learning for humanoids. In August 2026 I joined PIA Robotics, a pre-seed humanoid startup, with no prior robotics experience, and built its sim-to-real pipeline for whole-body control from scratch: policies are trained with RL in Isaac Lab, checked in MuJoCo, and deployed on a Unitree G1. Right now I'm building a pipeline that turns text-generated human motion into robot reference motion through mesh-based retargeting, so the data is clean enough that RL has as little as possible to fix.</p>
-      <p>I'm finishing a Ph.D. in Machine Learning at Georgia Tech (December 2026), advised by Cassie S. Mitchell. The thread through my work is how behavior gets produced. I studied it in brains as a neuroscience undergraduate, then inside LLMs and VLMs during my Ph.D., using causal interventions (activation patching, steering, targeted post-training) to find where specific behaviors come from. Now I study it in robot bodies. Each move has meant learning a new field from the ground up, and that is the part I enjoy most.</p>
+      <p>I work on robot learning for humanoids. In August 2026 I joined PIA Robotics, a pre-seed humanoid startup, with no prior robotics experience, and built its sim-to-real pipeline for whole-body control from scratch: policies are trained with RL in Isaac Lab, checked in MuJoCo, and deployed on a Unitree G1. I also built a pipeline that turns text-generated human motion into robot reference motion through learned point-cloud correspondence between the human and robot bodies, trained BeyondMimic motion-tracking policies on it, and deployed them on the G1.</p>
+      <p>I'm finishing a Ph.D. in Machine Learning at Georgia Tech (expected May 2027), advised by Cassie S. Mitchell. The thread through my work is how behavior gets produced. I studied it in brains as a neuroscience undergraduate, then inside LLMs and VLMs during my Ph.D., using causal interventions (activation patching, steering, targeted post-training) to find where specific behaviors come from. Now I study it in robot bodies. Each move has meant learning a new field from the ground up, and that is the part I enjoy most.</p>
     </div>
 
     <ul class="links">
       <li><a href="cv.pdf">CV</a></li>
+      <li><a href="#robotics">Demo video</a></li>
       <!-- <li><a href="PASTE_GOOGLE_SCHOLAR_URL">Google Scholar</a></li> -->
       <li><a href="https://github.com/alee0504">GitHub</a></li>
       <!-- <li><a href="PASTE_LINKEDIN_URL">LinkedIn</a></li> -->
@@ -220,7 +221,7 @@ footer {
       </div>
       <div>
         <span class="label">Motion data</span>
-        <p>Text-generated human motion, retargeted through the body mesh so RL has less to fix.</p>
+        <p>Text-generated human motion, retargeted through body-surface correspondence and tracked on the real robot.</p>
       </div>
       <div>
         <span class="label">Model internals</span>
@@ -262,10 +263,11 @@ footer {
         </div>
       </li>
       <li class="entry">
-        <span class="meta">PIA · ongoing</span>
+        <span class="meta">PIA · 2026</span>
         <div class="body">
-          <span class="title">Text-to-motion reference data with mesh-based retargeting</span>
-          <p>Human motion is generated from text with a kinematic motion-diffusion model, turned into a parametric body mesh, and retargeted to the robot through dense correspondence between the human and robot body surfaces, under contact, joint-limit, and floor constraints. The aim is reference data clean enough that RL is needed as little as possible and new motions reach the robot faster.</p>
+          <span class="title">From text to robot motion: correspondence-based retargeting and motion tracking</span>
+          <p>Human motion is generated from text with Kimodo on the SOMA body model, skinned into a human body mesh, and retargeted to the G1 through point-cloud correspondence between the human and robot body surfaces, learned with a PointNet autoencoder, under contact, joint-limit, and floor constraints, rather than through skeleton-based joint mapping. I trained BeyondMimic motion-tracking policies on the retargeted references and deployed them on the robot.</p>
+          <span class="refs">Builds on UMR (Cao et al., 2026) · BeyondMimic (Liao et al., 2025)</span>
         </div>
       </li>
     </ul>
@@ -282,7 +284,7 @@ footer {
         </div>
       </li>
       <li class="entry">
-        <span class="meta">05/2026 – 09/2026</span>
+        <span class="meta">05/2026 – 08/2026</span>
         <div class="body">
           <span class="title">LG AI Research · Research Intern</span>
           <p>Causal discovery from interventional single-cell data under latent confounding and feedback loops. Co-first author, NeurIPS 2026 AI4DD workshop.</p>
@@ -306,7 +308,7 @@ footer {
         <span class="meta">2026</span>
         <div class="body">
           <span class="title">What post-training changes inside a model</span>
-          <p>Robustness fine-tuning of Llama-3.1-8B-Instruct against wrong diagnostic suggestions (KL-regularized LoRA on the gold answer, compared with GRPO) raises accuracy under wrong suggestions (31% → 72%) but lowers it under correct ones (89% → 62%). About 60% of both effects sits in one layer, and shifting it back recovers much of the loss. In ongoing work, I trace a rule-application failure to about 2% of attention heads and post-train only those heads with SFT and RL with verifiable rewards.</p>
+          <p>Fine-tuning Llama-3.1-8B-Instruct (KL-regularized LoRA on the gold answer, compared with GRPO) to resist wrong diagnostic suggestions raises accuracy under wrong suggestions (30.5% → 71.5%) but lowers it under correct ones (89.1% → 62.2%). What it lost was only its bias toward following suggestions; its ability to tell right suggestions from wrong ones went up (AUROC 0.684 → 0.741). The two changes sit at different tokens, the bias at the suggestion and the discrimination gain at the answer options, so steering just the suggestion tokens recovers 59% of the loss while keeping 79% of the gain, also on held-out pairs. In ongoing work, I trace a rule-application failure to about 2% of attention heads and post-train only those heads with SFT and RL with verifiable rewards.</p>
           <span class="refs">ACL ARR 2026 submission · ongoing</span>
         </div>
       </li>
@@ -323,7 +325,7 @@ footer {
         <div class="body">
           <span class="title">Building ontology structure into representations</span>
           <p>HiCo-EL builds an ontology's type hierarchy into bi-encoder entity linking: +3.7 R@1 on MedMentions and +9.6 on diseases unseen in training. It is the linking step in the lab's text-to-knowledge tools, between mention extraction (CCS Explorer, TrialSieve) and reasoning over a UMLS concept graph (SemNet Explorer), which I also contributed to.</p>
-          <span class="refs">Findings of EMNLP 2026 (first author) · IEEE BigData 2022 · Bioengineering 2025 · BDCC 2026</span>
+          <span class="refs">EMNLP 2026 (first author) · IEEE BigData 2022 · Bioengineering 2025 · BDCC 2026</span>
         </div>
       </li>
       <li class="entry">
@@ -344,13 +346,13 @@ footer {
     <ul class="list tight">
       <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Recovery Is Not Provenance: A Source-Substitution Audit of VLM Activation Patching in Medical VQA.</span> <span class="venue">Under review at AAAI 2027.</span></p></li>
       <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Seven Medical Reasoning Biases, One Causal Direction.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
-      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Resisting Wrong Suggestions, Losing Right Ones: What Robustness Fine-Tuning Changes in Medical LLMs.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Telling Apart What Fine-Tuning Against Wrong Diagnostic Suggestions Gains and Loses.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
     </ul>
 
     <h3>Conference and workshop papers</h3>
     <ul class="list tight">
       <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>*, J. Kang*, S. Kim*, H. Jeong.</span> <span class="ptitle">Separating Co-expression from Regulation in Cyclic Causal Discovery with Latent Confounders.</span> <span class="venue">NeurIPS 2026 Workshop on AI for Drug Discovery (AI4DD).</span> *Equal contribution.</p></li>
-      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, P. Bathala, P. Malhotra, C. Ye, C. S. Mitchell.</span> <span class="ptitle">HiCo-EL: Encoding Ontology Structure into Bi-Encoder Entity Linking.</span> <span class="venue">Findings of EMNLP 2026.</span></p></li>
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, P. Bathala, P. Malhotra, C. Ye, C. S. Mitchell.</span> <span class="ptitle">HiCo-EL: Encoding Ontology Structure into Bi-Encoder Entity Linking.</span> <span class="venue">EMNLP 2026.</span></p></li>
       <li class="entry"><span class="meta">2022</span><p class="pub"><span class="authors">I. Al-Hussaini, D. N. An, <b>A. J. Lee</b>, S. Bi, C. S. Mitchell.</span> <span class="ptitle">CCS Explorer: Relevance Prediction, Extractive Summarization, and Named Entity Recognition from Clinical Cohort Studies.</span> <span class="venue">IEEE BigData 2022, Oral.</span></p></li>
     </ul>
 

@@ -202,7 +202,7 @@ footer {
 
     <div class="bio">
       <p>I study where a model's behavior comes from and how to change it reliably, mostly in biomedical settings where a wrong answer has a real cost. My Ph.D. work uses causal interventions on model internals (activation patching, steering) and targeted post-training (SFT, RL with verifiable rewards) to find where specific behaviors come from in medical LLMs and VLMs, change them, and check whether an intervention really does what it appears to.</p>
-      <p>I also work on ML for biology and medicine: causal discovery from single-cell perturbation data at LG AI Research, ontology-aware biomedical entity linking, and earlier, dynamical-systems models of ALS. I trained in neuroscience and am finishing my Ph.D. at Georgia Tech (December 2026), advised by Cassie S. Mitchell. Since August 2026 I have been at PIA Robotics, a pre-seed humanoid startup, where I built its sim-to-real pipeline from scratch. I've changed fields a few times, and learning a new one from the ground up is the part I enjoy most.</p>
+      <p>I also work on ML for biology and medicine: causal discovery from single-cell perturbation data at LG AI Research, ontology-aware biomedical entity linking, and earlier, dynamical-systems models of ALS. I trained in neuroscience and am finishing my Ph.D. at Georgia Tech (expected May 2027), advised by Cassie S. Mitchell. Since August 2026 I have been at PIA Robotics, a pre-seed humanoid startup, where I built its sim-to-real pipeline from scratch. I've changed fields a few times, and learning a new one from the ground up is the part I enjoy most.</p>
     </div>
 
     <ul class="links">
@@ -254,7 +254,7 @@ footer {
         <span class="meta">2026</span>
         <div class="body">
           <span class="title">What post-training changes inside a model</span>
-          <p>Robustness fine-tuning of Llama-3.1-8B-Instruct against wrong diagnostic suggestions (KL-regularized LoRA on the gold answer, compared with GRPO) raises accuracy under wrong suggestions (31% → 72%) but lowers it under correct ones (89% → 62%). About 60% of both effects sits in one layer, and shifting it back recovers much of the loss.</p>
+          <p>Robustness fine-tuning of Llama-3.1-8B-Instruct against wrong diagnostic suggestions (KL-regularized LoRA on the gold answer, compared with GRPO) raises accuracy under wrong suggestions (30.5% → 71.5%) but lowers it under correct ones (89.1% → 62.2%). What it lost was only its bias toward following suggestions; its ability to tell right suggestions from wrong ones went up (AUROC 0.684 → 0.741). The two changes sit at different tokens, the bias at the suggestion and the discrimination gain at the answer options, so steering just the suggestion tokens recovers 59% of the loss while keeping 79% of the gain, also on held-out pairs.</p>
           <p>In ongoing work, I build counterfactual evaluations of treatment-eligibility judgments, which should change when the rules change but not when only the patient's stated goal changes. I trace the rule-application failure to about 2% of attention heads and post-train only those heads with SFT and RL with verifiable rewards, against random-head and full-parameter baselines, measuring both the correction and its side effects.</p>
           <span class="refs">ACL ARR 2026 submission · ongoing</span>
         </div>
@@ -280,7 +280,7 @@ footer {
         <div class="body">
           <span class="title">Building ontology structure into representations</span>
           <p>HiCo-EL builds an ontology's type hierarchy into bi-encoder entity linking: +3.7 R@1 on MedMentions and +9.6 on diseases unseen in training. It is the linking step in the lab's text-to-knowledge tools, between mention extraction (CCS Explorer, TrialSieve) and reasoning over a UMLS concept graph (SemNet Explorer), which I also contributed to.</p>
-          <span class="refs">Findings of EMNLP 2026 (first author) · IEEE BigData 2022 · Bioengineering 2025 · BDCC 2026</span>
+          <span class="refs">EMNLP 2026 (first author) · IEEE BigData 2022 · Bioengineering 2025 · BDCC 2026</span>
         </div>
       </li>
       <li class="entry">
@@ -302,7 +302,7 @@ footer {
         <span class="meta">PIA · 08/2026 –</span>
         <div class="body">
           <span class="title">Sim-to-real pipeline for humanoid whole-body control</span>
-          <p>I chose the stack and built each stage myself: RL training in Isaac Lab, sim-to-sim checks in MuJoCo, and deployment on a Unitree G1. I'm now extending it with text-to-motion reference data and mesh-based retargeting, so RL has as little as possible to fix. The same habits carry over to any new domain: learn the field quickly, own the system end to end, and get it working on the real thing.</p>
+          <p>I chose the stack and built each stage myself: RL training in Isaac Lab, sim-to-sim checks in MuJoCo, and deployment on a Unitree G1. I then added a text-to-robot motion pipeline that retargets generated human motion through learned point-cloud correspondence, and trained BeyondMimic motion-tracking policies that run on the G1. The same habits carry over to any new domain: learn the field quickly, own the system end to end, and get it working on the real thing.</p>
         </div>
       </li>
     </ul>
@@ -319,7 +319,7 @@ footer {
         </div>
       </li>
       <li class="entry">
-        <span class="meta">05/2026 – 09/2026</span>
+        <span class="meta">05/2026 – 08/2026</span>
         <div class="body">
           <span class="title">LG AI Research · Research Intern</span>
           <p>Bio Intelligence Lab. Causal discovery from single-cell perturbation data.</p>
@@ -349,13 +349,13 @@ footer {
     <ul class="list tight">
       <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Recovery Is Not Provenance: A Source-Substitution Audit of VLM Activation Patching in Medical VQA.</span> <span class="venue">Under review at AAAI 2027.</span></p></li>
       <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Seven Medical Reasoning Biases, One Causal Direction.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
-      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Resisting Wrong Suggestions, Losing Right Ones: What Robustness Fine-Tuning Changes in Medical LLMs.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Telling Apart What Fine-Tuning Against Wrong Diagnostic Suggestions Gains and Loses.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
     </ul>
 
     <h3>Conference and workshop papers</h3>
     <ul class="list tight">
       <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>*, J. Kang*, S. Kim*, H. Jeong.</span> <span class="ptitle">Separating Co-expression from Regulation in Cyclic Causal Discovery with Latent Confounders.</span> <span class="venue">NeurIPS 2026 Workshop on AI for Drug Discovery (AI4DD).</span> *Equal contribution.</p></li>
-      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, P. Bathala, P. Malhotra, C. Ye, C. S. Mitchell.</span> <span class="ptitle">HiCo-EL: Encoding Ontology Structure into Bi-Encoder Entity Linking.</span> <span class="venue">Findings of EMNLP 2026.</span></p></li>
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, P. Bathala, P. Malhotra, C. Ye, C. S. Mitchell.</span> <span class="ptitle">HiCo-EL: Encoding Ontology Structure into Bi-Encoder Entity Linking.</span> <span class="venue">EMNLP 2026.</span></p></li>
       <li class="entry"><span class="meta">2022</span><p class="pub"><span class="authors">I. Al-Hussaini, D. N. An, <b>A. J. Lee</b>, S. Bi, C. S. Mitchell.</span> <span class="ptitle">CCS Explorer: Relevance Prediction, Extractive Summarization, and Named Entity Recognition from Clinical Cohort Studies.</span> <span class="venue">IEEE BigData 2022, Oral.</span></p></li>
     </ul>
 
