@@ -263,7 +263,7 @@ footer {
         <span class="meta">2025 – 2026</span>
         <div class="body">
           <span class="title">What defenses against wrong suggestions cost</span>
-          <p>Medical QA defenses are scored only on wrong suggestions. Pairing each wrong suggestion with the same sentence naming the correct option shows that activation steering and three prompting defenses weaken wrong suggestions but cut the gain from correct ones in all three models tested (Llama-3.1-8B, Mistral-7B, Qwen2.5-7B), a cost that accuracy without a suggestion can miss: few-shot prompting raises Mistral-7B's no-suggestion accuracy by 2.9 points but lowers it by 16.9 with a correct suggestion. Head sets ranked by attention to wrong suggestions also affect correct ones, and a gate on the named option's probability loses less than random deletion at the same gain.</p>
+          <p>Medical QA defenses are scored with wrong suggestions, and sometimes with none. Pairing each wrong suggestion with the same sentence naming the correct option shows that activation steering and three prompting defenses weaken wrong suggestions but cut the gain from correct ones in all three models tested on BiasMedQA (Llama-3.1-8B, Mistral-7B, Qwen2.5-7B), a cost that accuracy without a suggestion can miss: few-shot prompting raises Mistral-7B's no-suggestion accuracy by 2.9 points but lowers it by 16.9 with a correct suggestion. Head sets ranked by attention to wrong suggestions also affect correct ones, and a gate on the named option's probability loses less than random deletion at the same gain.</p>
           <span class="refs">ACL ARR 2026 submission</span>
         </div>
       </li>
