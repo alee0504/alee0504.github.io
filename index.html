@@ -262,9 +262,17 @@ footer {
       <li class="entry">
         <span class="meta">2025 – 2026</span>
         <div class="body">
+          <span class="title">What defenses against wrong suggestions cost</span>
+          <p>Medical QA defenses are scored only on wrong suggestions. Pairing each wrong suggestion with the same sentence naming the correct option shows that activation steering and three prompting defenses weaken wrong suggestions but cut the gain from correct ones in all three models tested (Llama-3.1-8B, Mistral-7B, Qwen2.5-7B), a cost that accuracy without a suggestion can miss: few-shot prompting raises Mistral-7B's no-suggestion accuracy by 2.9 points but lowers it by 16.9 with a correct suggestion. Head sets ranked by attention to wrong suggestions also affect correct ones, and a gate on the named option's probability loses less than random deletion at the same gain.</p>
+          <span class="refs">ACL ARR 2026 submission</span>
+        </div>
+      </li>
+      <li class="entry">
+        <span class="meta">2026</span>
+        <div class="body">
           <span class="title">Whether interpretability tools mean what they seem to</span>
-          <p>One activation direction reduces cue-following across seven kinds of answer-suggesting cues in three LLM families, and comparing it with cue-specific and random directions separates what is detectable from what works as an intervention. In VLMs, activation patching that repairs an answer flipped by an authoritative wrong prompt need not restore evidence from the image: donors from a different case recover as much as the same case, across 5 models.</p>
-          <span class="refs">ACL ARR 2026 submission · AAAI 2027 submission</span>
+          <p>In VLMs, activation patching that repairs an answer flipped by an authoritative wrong prompt need not restore evidence from the image: donors from a different case recover as much as the same case, across 5 models. Forward and reverse patches, identity replay, and matched-random head sets check that the intervention itself behaves as intended.</p>
+          <span class="refs">AAAI 2027 submission</span>
         </div>
       </li>
       <li class="entry">
@@ -342,7 +350,7 @@ footer {
     <h3>Under review</h3>
     <ul class="list tight">
       <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Recovery Is Not Provenance: A Source-Substitution Audit of VLM Activation Patching in Medical VQA.</span> <span class="venue">Under review at AAAI 2027.</span></p></li>
-      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Seven Medical Reasoning Biases, One Causal Direction.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
+      <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Defenses Against Wrong Suggestions Can Also Cost the Benefit of Correct Ones in Medical QA.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
       <li class="entry"><span class="meta">2026</span><p class="pub"><span class="authors"><b>A. J. B. Lee</b>, C. S. Mitchell.</span> <span class="ptitle">Telling Apart What Fine-Tuning Against Wrong Diagnostic Suggestions Gains and Loses.</span> <span class="venue">Under review at ACL Rolling Review.</span></p></li>
     </ul>
 
