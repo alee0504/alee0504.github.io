@@ -250,36 +250,40 @@ footer {
 
   <section id="research">
     <h2>Research</h2>
+    <p class="lede">A model shown a suggested answer tends to follow it, a sycophancy-like behavior that matters when the suggestion is wrong and a wrong answer has a real cost. Fixes for it are usually scored only on what they block. My work also measures what they take away, finds where the behavior lives inside the model, and tests fixes aimed at that place, while checking that the interpretability tools I rely on show what they seem to.</p>
     <ul class="list">
       <li class="entry">
         <span class="meta">2026</span>
         <div class="body">
-          <span class="title">What fine-tuning against wrong suggestions gains and loses</span>
-          <p>Fine-tuning Llama-3.1-8B-Instruct to resist wrong diagnostic suggestions (KL-regularized LoRA on the gold answer, compared with GRPO) raises accuracy under wrong suggestions (30.5% → 71.5%) but lowers it under correct ones (89.1% → 62.2%). What the model lost was only its bias toward following suggestions; its ability to tell right suggestions from wrong ones went up (AUROC 0.684 → 0.741). Cross-model activation patching puts the two changes at different tokens, the bias at the suggestion and the discrimination gain at the answer options, so steering just the suggestion tokens recovers 59% of the loss while keeping 79% of the gain, also on held-out pairs.</p>
-          <span class="refs">ACL ARR 2026 submission</span>
+          <span class="title">What a robustness fix gains and loses inside the model</span>
+          <p>Fine-tuning Llama-3.1-8B-Instruct to resist wrong diagnostic suggestions raised its accuracy under wrong suggestions from 30.5% to 71.5%, but cut it under correct ones from 89.1% to 62.2%.</p>
+          <p>The model did not get worse at telling right suggestions from wrong; that ability improved (AUROC 0.684 → 0.741). What it lost was its bias toward following suggestions. Cross-model activation patching places the two changes at different tokens: the bias at the suggestion, the discrimination gain at the answer options. So steering only the suggestion tokens recovers 59% of the lost accuracy while keeping 79% of the discrimination gain, and holds on held-out questions.</p>
+          <span class="refs">KL-regularized LoRA, compared with GRPO; also Qwen2.5-7B · ACL ARR 2026 submission</span>
         </div>
       </li>
       <li class="entry">
         <span class="meta">2025 – 2026</span>
         <div class="body">
           <span class="title">What defenses against wrong suggestions cost</span>
-          <p>Medical QA defenses are scored with wrong suggestions, and sometimes with none. Pairing each wrong suggestion with the same sentence naming the correct option shows that activation steering and three prompting defenses weaken wrong suggestions but cut the gain from correct ones in all three models tested on BiasMedQA (Llama-3.1-8B, Mistral-7B, Qwen2.5-7B), a cost that accuracy without a suggestion can miss: few-shot prompting raises Mistral-7B's no-suggestion accuracy by 2.9 points but lowers it by 16.9 with a correct suggestion. Head sets ranked by attention to wrong suggestions also affect correct ones, and a gate on the named option's probability loses less than random deletion at the same gain.</p>
-          <span class="refs">ACL ARR 2026 submission</span>
+          <p>Defenses in medical QA are scored with wrong suggestions and sometimes with none, and BiasMedQA, the medical benchmark for this behavior, contains only wrong ones. Such scores cannot tell resisting wrong suggestions from ignoring every suggestion. I paired each wrong suggestion in BiasMedQA with the same sentence naming the correct option, adding no evidence.</p>
+          <p>Activation steering and three prompting defenses all weakened wrong suggestions but also cut the benefit of correct ones, in every model on BiasMedQA (Llama-3.1-8B, Mistral-7B, Qwen2.5-7B). The usual check, accuracy with no suggestion, can hide this: few-shot prompting raised Mistral-7B's no-suggestion accuracy by 2.9 points while lowering its accuracy with a correct suggestion by 16.9. Attention heads ranked by how much they read wrong suggestions also carry correct ones, so blocking them does not separate the two. A simple gate that drops a suggestion only when, without it, the model gives its named option little probability loses less than random deletion at the same gain, in every model on both datasets.</p>
+          <span class="refs">BiasMedQA, MedMCQA · ACL ARR 2026 submission</span>
         </div>
       </li>
       <li class="entry">
         <span class="meta">2026</span>
         <div class="body">
-          <span class="title">Whether interpretability tools mean what they seem to</span>
-          <p>In VLMs, activation patching that repairs an answer flipped by an authoritative wrong prompt need not restore evidence from the image: donors from a different case recover as much as the same case, across 5 models. Forward and reverse patches, identity replay, and matched-random head sets check that the intervention itself behaves as intended.</p>
-          <span class="refs">AAAI 2027 submission</span>
+          <span class="title">Whether an interpretability result means what it seems to</span>
+          <p>When an authoritative wrong text prompt flips a VLM's answer about a medical image, activation patching can repair the answer, and it is tempting to read that as restoring evidence from the image. Swapping in a donor from a different case recovers just as much (98–103% of same-case recovery, across 5 VLMs), so the repair need not come from the image at all.</p>
+          <p>Controls check the intervention itself: forward and reverse patches move the answer margin in opposite directions, identity replay is exact, and the selected heads exceed all 95 matched-random component sets by at least 3.5×.</p>
+          <span class="refs">SLAKE, VQA-RAD · AAAI 2027 submission</span>
         </div>
       </li>
       <li class="entry">
         <span class="meta">2026 –</span>
         <div class="body">
           <span class="title">Applying rules without being swayed by irrelevant goals</span>
-          <p>Counterfactual evaluations of treatment-eligibility judgments, which should change when the rules change but not when only the patient's stated goal changes. I trace the rule-application failure to about 2% of attention heads and post-train only those heads with SFT and RL with verifiable rewards, against random-head and full-parameter baselines, measuring both the correction and its side effects.</p>
+          <p>A treatment-eligibility judgment should change when the rules change, but not when only the patient's stated goal changes. I build counterfactual tests of exactly that on synthetic treatment-decision tasks, trace the failure to about 2% of attention heads, and post-train only those heads (SFT and RL with verifiable rewards). I compare against random-head and full-parameter updates on both the fix and its side effects, such as wrongly excluding permitted options.</p>
           <span class="refs">ongoing</span>
         </div>
       </li>
@@ -287,7 +291,7 @@ footer {
         <span class="meta">2026</span>
         <div class="body">
           <span class="title">Causal discovery from single-cell perturbation data</span>
-          <p>At LG AI Research I developed DCCD-J, a differentiable method that recovers causal graphs from interventional data with latent confounders and feedback loops. Replacing the prior method's alternating covariance estimation, which collapses on real data, with a jointly optimized Cholesky parameterization gave the best held-out likelihood on all 5 benchmarks and confounder-recovery F1 of 0.93 versus 0.23 under dense confounding. I also used attribution from single-cell foundation models (scFoundation, scLong) to choose the gene set.</p>
+          <p>At LG AI Research I developed DCCD-J, a differentiable method that recovers causal graphs from interventional data with latent confounders and feedback loops. It replaces the prior method's alternating covariance estimation, which collapses on real data, with a jointly optimized Cholesky parameterization, and achieved the best held-out likelihood on all 5 benchmarks and confounder-recovery F1 of 0.93 versus 0.23 under dense confounding. I also used attribution from single-cell foundation models (scFoundation, scLong) to choose the gene set.</p>
           <span class="refs">NeurIPS 2026 AI4DD workshop (co-first author)</span>
         </div>
       </li>
